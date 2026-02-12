@@ -76,11 +76,16 @@ export function setupEditor() {
     const data = state.spots.map(({ id, x, y, radius, image }) => ({ id, x, y, radius, image, found: false }));
     const json = JSON.stringify(data, null, 2);
     jsonArea.value = json;
-    navigator.clipboard.writeText(json).then(() => {
-      showToast('JSON copied to clipboard!');
-    }).catch(() => {
-      showToast('JSON shown in textarea — copy manually');
-    });
+
+    // Download as config.json
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'config.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('config.json downloaded!');
   });
 
   btnImport.addEventListener('click', () => {

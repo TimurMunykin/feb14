@@ -1,4 +1,5 @@
-import { state } from './state.js';
+import { state, loadSpots } from './state.js';
+import { loadConfig } from './config.js';
 import { mainImage, hotspotsLayer } from './dom.js';
 import { renderHotspots, updateCounter } from './render.js';
 import { closePopup } from './popup.js';
@@ -6,7 +7,11 @@ import { setupEditor } from './editor.js';
 
 const btnHint = document.getElementById('btn-hint');
 
-function init() {
+async function init() {
+  // Load config from config.json
+  const hotspots = await loadConfig();
+  loadSpots(hotspots);
+
   state.editorMode = location.search.includes('editor');
 
   if (state.editorMode) {
@@ -37,7 +42,6 @@ function showHint() {
   const unfound = state.spots.filter(s => !s.found);
   if (!unfound.length) return;
 
-  // If current hint target was found or not set, pick a new one
   if (hintTargetId === null || !unfound.find(s => s.id === hintTargetId)) {
     hintTargetId = unfound[Math.floor(Math.random() * unfound.length)].id;
   }
@@ -53,7 +57,6 @@ function showHint() {
     btnHint.disabled = false;
   }, { once: true });
 
-  // fallback
   setTimeout(() => {
     el.classList.remove('hint');
     btnHint.disabled = false;
