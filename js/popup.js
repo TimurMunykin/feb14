@@ -28,51 +28,95 @@ export function showPopup(spot) {
   popup.appendChild(arrow);
   popup.appendChild(inner);
 
-  // Position popup
-  const hotspotPos = toPixel(spot.x, spot.y);
-  const containerW = mainImage.parentElement.clientWidth;
-  const containerH = mainImage.parentElement.clientHeight;
-  const popupW = 240 + 12;
-  const popupH = 200;
-  const gap = 20;
+  // Insert hidden to measure real size
+  popup.style.visibility = 'hidden';
+  popup.style.left = '0px';
+  popup.style.top = '0px';
+  inner.style.animation = 'none';
+  popupContainer.appendChild(popup);
 
-  const spaceRight = containerW - hotspotPos.x;
-  const spaceLeft = hotspotPos.x;
-  const spaceBottom = containerH - hotspotPos.y;
-  const spaceTop = hotspotPos.y;
+  const position = () => {
+    const popupRect = popup.getBoundingClientRect();
+    const popupW = popupRect.width;
+    const popupH = popupRect.height;
 
-  let px, py, arrowDir;
+    const hotspotPos = toPixel(spot.x, spot.y);
+    const containerW = mainImage.parentElement.clientWidth;
+    const containerH = mainImage.parentElement.clientHeight;
+    const gap = 20;
 
-  if (spaceRight >= popupW + gap && spaceRight >= spaceLeft) {
-    px = hotspotPos.x + gap;
-    py = hotspotPos.y - popupH / 2;
-    arrowDir = 'left';
-  } else if (spaceLeft >= popupW + gap) {
-    px = hotspotPos.x - popupW - gap;
-    py = hotspotPos.y - popupH / 2;
-    arrowDir = 'right';
-  } else if (spaceBottom >= popupH + gap && spaceBottom >= spaceTop) {
-    px = hotspotPos.x - popupW / 2;
-    py = hotspotPos.y + gap;
-    arrowDir = 'top';
+    const spaceRight = containerW - hotspotPos.x;
+    const spaceLeft = hotspotPos.x;
+    const spaceBottom = containerH - hotspotPos.y;
+    const spaceTop = hotspotPos.y;
+
+    let px, py, arrowDir;
+
+    // Pick the best side — prefer sides with enough room
+    const fits = {
+      right: spaceRight >= popupW + gap,
+      left: spaceLeft >= popupW + gap,
+      top: spaceTop >= popupH + gap,
+      bottom: spaceBottom >= popupH + gap,
+    };
+
+    if (fits.right && spaceRight >= spaceLeft) {
+      px = hotspotPos.x + gap;
+      py = hotspotPos.y - popupH / 2;
+      arrowDir = 'left';
+    } else if (fits.left) {
+      px = hotspotPos.x - popupW - gap;
+      py = hotspotPos.y - popupH / 2;
+      arrowDir = 'right';
+    } else if (fits.top) {
+      px = hotspotPos.x - popupW / 2;
+      py = hotspotPos.y - popupH - gap;
+      arrowDir = 'bottom';
+    } else if (fits.bottom) {
+      px = hotspotPos.x - popupW / 2;
+      py = hotspotPos.y + gap;
+      arrowDir = 'top';
+    } else {
+      // Nothing fits perfectly — pick side with most space, above preferred
+      if (spaceTop >= spaceBottom) {
+        px = hotspotPos.x - popupW / 2;
+        py = hotspotPos.y - popupH - gap;
+        arrowDir = 'bottom';
+      } else {
+        px = hotspotPos.x - popupW / 2;
+        py = hotspotPos.y + gap;
+        arrowDir = 'top';
+      }
+    }
+
+    // Clamp to viewport
+    px = Math.max(8, Math.min(px, containerW - popupW - 8));
+    py = Math.max(8, Math.min(py, containerH - popupH - 8));
+
+    popup.className = 'popup arrow-' + arrowDir;
+    popup.style.left = px + 'px';
+    popup.style.top = py + 'px';
+    popup.style.visibility = '';
+
+    // Restore animation
+    inner.style.animation = '';
+    const originX = hotspotPos.x - px;
+    const originY = hotspotPos.y - py;
+    inner.style.transformOrigin = `${originX}px ${originY}px`;
+  };
+
+  // If image loaded — position immediately, otherwise wait
+  if (img.complete && img.naturalWidth) {
+    position();
   } else {
-    px = hotspotPos.x - popupW / 2;
-    py = hotspotPos.y - popupH - gap;
-    arrowDir = 'bottom';
+    img.addEventListener('load', position, { once: true });
+    img.addEventListener('error', position, { once: true });
+    // Fallback if image takes too long
+    setTimeout(() => {
+      if (popup.style.visibility === 'hidden') position();
+    }, 300);
   }
 
-  px = Math.max(8, Math.min(px, containerW - popupW - 8));
-  py = Math.max(8, Math.min(py, containerH - popupH - 8));
-
-  popup.classList.add('arrow-' + arrowDir);
-  popup.style.left = px + 'px';
-  popup.style.top = py + 'px';
-
-  const originX = hotspotPos.x - px;
-  const originY = hotspotPos.y - py;
-  inner.style.transformOrigin = `${originX}px ${originY}px`;
-
-  popupContainer.appendChild(popup);
   state.activePopup = popup;
 }
 
