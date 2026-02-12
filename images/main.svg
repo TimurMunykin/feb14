@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#2d5a3d"/>
+  <ellipse cx="600" cy="700" rx="500" ry="80" fill="#1a3d25"/>
+  <!-- Tree -->
+  <rect x="570" y="350" width="60" height="200" fill="#5c3a1e"/>
+  <polygon points="600,150 450,400 750,400" fill="#2e7d32"/>
+  <polygon points="600,200 480,380 720,380" fill="#388e3c"/>
+  <!-- Sun -->
+  <circle cx="950" cy="120" r="70" fill="#ffd54f"/>
+  <!-- Bushes -->
+  <ellipse cx="200" cy="620" rx="120" ry="60" fill="#1b5e20"/>
+  <ellipse cx="900" cy="640" rx="100" ry="50" fill="#1b5e20"/>
+  <ellipse cx="400" cy="660" rx="80" ry="40" fill="#2e7d32"/>
+  <!-- Hidden objects hints -->
+  <circle cx="220" cy="600" r="12" fill="#c62828" opacity="0.8"/>
+  <rect x="880" y="620" width="20" height="25" rx="3" fill="#1565c0" opacity="0.8"/>
+  <polygon points="600,500 590,520 610,520" fill="#f9a825" opacity="0.8"/>
+  <!-- Clouds -->
+  <ellipse cx="300" cy="100" rx="80" ry="30" fill="rgba(255,255,255,0.6)"/>
+  <ellipse cx="350" cy="90" rx="60" ry="25" fill="rgba(255,255,255,0.6)"/>
+  <ellipse cx="700" cy="70" rx="70" ry="25" fill="rgba(255,255,255,0.5)"/>
+  <!-- Flowers -->
+  <circle cx="150" cy="680" r="5" fill="#e91e63"/>
+  <circle cx="350" cy="700" r="5" fill="#ff9800"/>
+  <circle cx="750" cy="690" r="5" fill="#e91e63"/>
+  <circle cx="500" cy="710" r="4" fill="#9c27b0"/>
+</svg>
