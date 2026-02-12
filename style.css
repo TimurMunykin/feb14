@@ -231,33 +231,41 @@ body {
 }
 
 #btn-hint {
-  background: rgba(255, 215, 0, 0.85);
-  color: #1a1a2e;
+  font-family: 'Press Start 2P', monospace;
+  background: #e74c3c;
+  color: #fff;
   border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 700;
+  padding: 10px 18px;
+  font-size: 10px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: transform 0.15s, background 0.2s;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
 }
 
 #btn-hint:hover {
-  background: rgba(255, 215, 0, 1);
+  background: #c0392b;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.4);
+}
+
+#btn-hint:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 rgba(0,0,0,0.4);
 }
 
 #btn-hint:disabled {
   opacity: 0.4;
   cursor: default;
+  transform: none;
 }
 
 #counter {
-  background: rgba(0, 0, 0, 0.7);
+  font-family: 'Press Start 2P', monospace;
+  background: rgba(0, 0, 0, 0.75);
   color: #fff;
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-size: 16px;
-  font-weight: 600;
+  padding: 10px 18px;
+  font-size: 10px;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -438,4 +446,233 @@ body {
 @keyframes toast-out {
   from { opacity: 1; transform: translateX(-50%) translateY(0); }
   to { opacity: 0; transform: translateX(-50%) translateY(20px); }
+}
+
+/* ========== PIXEL FONT ========== */
+.pixel-font {
+  font-family: 'Press Start 2P', monospace;
+}
+
+/* ========== BLURRED STATE ========== */
+#main-image.blurred {
+  filter: blur(24px) brightness(0.5);
+  transition: filter 0.6s ease;
+}
+
+#main-image {
+  transition: filter 0.6s ease;
+}
+
+/* ========== INTRO SCREEN ========== */
+#intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fade-in 0.5s ease forwards;
+}
+
+#intro-overlay.fade-out {
+  animation: fade-out 0.5s ease forwards;
+}
+
+.intro-content {
+  text-align: center;
+  color: #fff;
+  max-width: 600px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Pixel heart wrapper — reserves real space in layout */
+.heart-wrap {
+  width: 340px;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-bottom: 24px;
+}
+
+/* Pixel heart via box-shadow — element is one "pixel" (8x8) */
+.intro-heart, .victory-heart {
+  width: 8px;
+  height: 8px;
+  background: transparent;
+  font-size: 0;
+  box-shadow:
+    /* row 1 */
+    8px 0 0 #e74c3c, 16px 0 0 #e74c3c, 40px 0 0 #e74c3c, 48px 0 0 #e74c3c,
+    /* row 2 */
+    0px 8px 0 #e74c3c, 8px 8px 0 #e74c3c, 16px 8px 0 #e74c3c, 24px 8px 0 #e74c3c,
+    32px 8px 0 #e74c3c, 40px 8px 0 #e74c3c, 48px 8px 0 #e74c3c, 56px 8px 0 #e74c3c,
+    /* row 3 */
+    0px 16px 0 #e74c3c, 8px 16px 0 #e74c3c, 16px 16px 0 #e74c3c, 24px 16px 0 #e74c3c,
+    32px 16px 0 #e74c3c, 40px 16px 0 #e74c3c, 48px 16px 0 #e74c3c, 56px 16px 0 #e74c3c,
+    /* row 4 */
+    8px 24px 0 #e74c3c, 16px 24px 0 #e74c3c, 24px 24px 0 #e74c3c,
+    32px 24px 0 #e74c3c, 40px 24px 0 #e74c3c, 48px 24px 0 #e74c3c,
+    /* row 5 */
+    16px 32px 0 #e74c3c, 24px 32px 0 #e74c3c, 32px 32px 0 #e74c3c, 40px 32px 0 #e74c3c,
+    /* row 6 */
+    24px 40px 0 #e74c3c, 32px 40px 0 #e74c3c;
+  transform: scale(5);
+  transform-origin: 32px 24px;
+  animation: pixel-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pixel-pulse {
+  0%, 100% { transform: scale(5); }
+  50% { transform: scale(5.5); }
+}
+
+.intro-title, .victory-message {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 26px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+}
+
+.intro-subtitle, .victory-subtitle {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  line-height: 2;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 24px;
+}
+
+.intro-hints {
+  list-style: none;
+  margin: 20px 0 32px;
+  padding: 0;
+}
+
+.intro-hints li {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  line-height: 2.4;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.intro-hints li::before {
+  content: '> ';
+  color: #ffd166;
+}
+
+.intro-start {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 16px;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 14px 32px;
+  cursor: pointer;
+  image-rendering: pixelated;
+  transition: transform 0.15s, background 0.2s;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.4);
+}
+
+.intro-start:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
+  background: #c0392b;
+}
+
+.intro-start:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.4);
+}
+
+.intro-start-heart {
+  display: inline-block;
+  animation: pixel-pulse-inline 1s ease-in-out infinite;
+}
+
+@keyframes pixel-pulse-inline {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* ========== VICTORY SCREEN ========== */
+#victory-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.8s ease;
+  pointer-events: none;
+}
+
+#victory-overlay.visible {
+  background: rgba(0, 0, 0, 0.75);
+  pointer-events: all;
+}
+
+.victory-content {
+  text-align: center;
+  color: #fff;
+  max-width: 550px;
+  padding: 20px;
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+}
+
+#victory-overlay.visible .victory-content {
+  transform: scale(1);
+  opacity: 1;
+  transition-delay: 0.3s;
+}
+
+.victory-message {
+  font-size: 18px;
+}
+
+.victory-subtitle {
+  margin-top: 12px;
+}
+
+/* Falling hearts */
+.hearts-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.heart-particle {
+  position: absolute;
+  top: -30px;
+  color: #e74c3c;
+  animation: fall-heart linear infinite;
+  font-family: 'Press Start 2P', monospace;
+  image-rendering: pixelated;
+}
+
+@keyframes fall-heart {
+  0% {
+    transform: translateY(-30px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }

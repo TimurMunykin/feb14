@@ -2,6 +2,7 @@ import { state } from './state.js';
 import { hotspotsLayer, counter } from './dom.js';
 import { toPixel, getImageRect } from './geometry.js';
 import { showPopup } from './popup.js';
+import { checkVictory } from './app.js';
 
 export function renderHotspots() {
   hotspotsLayer.innerHTML = '';
@@ -35,6 +36,7 @@ export function renderHotspots() {
           el.classList.add('found');
           updateCounter();
           showPopup(spot);
+          checkVictory();
         } else if (!state.activePopup) {
           showPopup(spot);
         }
@@ -47,5 +49,5 @@ export function renderHotspots() {
 
 export function updateCounter() {
   const found = state.spots.filter(s => s.found).length;
-  counter.textContent = `Found: ${found} / ${state.spots.length}`;
+  counter.textContent = `Найдено: ${found} из ${state.spots.length}`;
 }

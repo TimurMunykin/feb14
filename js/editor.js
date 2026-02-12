@@ -73,8 +73,13 @@ export function setupEditor() {
   }, { passive: false });
 
   btnExport.addEventListener('click', () => {
-    const data = state.spots.map(({ id, x, y, radius, image }) => ({ id, x, y, radius, image, found: false }));
-    const json = JSON.stringify(data, null, 2);
+    const hotspots = state.spots.map(({ id, x, y, radius, image }) => ({ id, x, y, radius, image }));
+    const fullConfig = {
+      intro: { title: "Find all hidden memories", subtitle: "A little game for you" },
+      victory: { message: "You found everything!", subtitle: "Happy Valentine's Day!" },
+      hotspots,
+    };
+    const json = JSON.stringify(fullConfig, null, 2);
     jsonArea.value = json;
 
     // Download as config.json
@@ -96,8 +101,8 @@ export function setupEditor() {
     }
     try {
       const data = JSON.parse(text);
-      if (!Array.isArray(data)) throw new Error('Expected array');
-      state.spots = data.map(h => ({ ...h, found: false }));
+      const arr = Array.isArray(data) ? data : (data.hotspots || []);
+      state.spots = arr.map(h => ({ ...h, found: false }));
       state.nextId = state.spots.length ? Math.max(...state.spots.map(h => h.id)) + 1 : 1;
       selectedId = null;
       rerender();

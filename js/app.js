@@ -4,23 +4,34 @@ import { mainImage, hotspotsLayer } from './dom.js';
 import { renderHotspots, updateCounter } from './render.js';
 import { closePopup } from './popup.js';
 import { setupEditor } from './editor.js';
+import { showIntro, showVictory } from './screens.js';
 
 const btnHint = document.getElementById('btn-hint');
+let victoryConfig = {};
 
 async function init() {
-  // Load config from config.json
-  const hotspots = await loadConfig();
-  loadSpots(hotspots);
+  const config = await loadConfig();
+  loadSpots(config.hotspots);
+  victoryConfig = config.victory;
 
   state.editorMode = location.search.includes('editor');
 
   if (state.editorMode) {
     setupEditor();
     btnHint.classList.add('hidden');
+    document.getElementById('hud').classList.remove('hidden');
+    renderHotspots();
+    updateCounter();
+    return;
   }
 
   renderHotspots();
   updateCounter();
+
+  // Show intro (game starts blurred)
+  showIntro(config.intro, () => {
+    // Game is now active
+  });
 
   btnHint.addEventListener('click', showHint);
 
@@ -61,6 +72,14 @@ function showHint() {
     el.classList.remove('hint');
     btnHint.disabled = false;
   }, 2600);
+}
+
+// Called from render.js when a spot is found
+export function checkVictory() {
+  const allFound = state.spots.length > 0 && state.spots.every(s => s.found);
+  if (allFound) {
+    setTimeout(() => showVictory(victoryConfig), 800);
+  }
 }
 
 if (mainImage.complete) {
