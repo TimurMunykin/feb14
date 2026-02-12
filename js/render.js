@@ -41,13 +41,6 @@ export function renderHotspots() {
       });
     }
 
-    if (state.editorMode) {
-      const label = document.createElement('span');
-      label.className = 'hotspot-label';
-      label.textContent = spot.image || 'no image';
-      el.appendChild(label);
-    }
-
     hotspotsLayer.appendChild(el);
   });
 }

@@ -341,20 +341,73 @@ body {
   display: none !important;
 }
 
-/* Hotspot image path input in editor mode */
-.hotspot-label {
+/* Selected hotspot in editor */
+.hotspot.selected {
+  background: rgba(255, 200, 50, 0.5) !important;
+  border-color: rgba(255, 255, 255, 0.9) !important;
+  border-style: solid !important;
+}
+
+/* Inline controls for selected hotspot */
+.spot-controls {
   position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 4px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  font-size: 11px;
-  padding: 2px 6px;
-  border-radius: 4px;
+  transform: translate(-50%, -100%);
+  margin-top: -12px;
+  background: rgba(20, 20, 40, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: all;
+  z-index: 150;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   white-space: nowrap;
-  pointer-events: none;
+}
+
+.spot-controls label {
+  font-size: 11px;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.spot-controls input[type="text"] {
+  width: 120px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: #fff;
+  padding: 3px 6px;
+  font-size: 11px;
+  font-family: monospace;
+}
+
+.spot-controls input[type="range"] {
+  width: 60px;
+  accent-color: #ffd166;
+}
+
+.spot-delete {
+  background: rgba(220, 50, 50, 0.8);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.spot-delete:hover {
+  background: rgba(240, 40, 40, 1);
 }
 
 /* Toast notification */
