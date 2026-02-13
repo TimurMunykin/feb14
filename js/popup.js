@@ -1,6 +1,16 @@
 import { state } from './state.js';
 import { mainImage, popupContainer } from './dom.js';
-import { toPixel } from './geometry.js';
+import { toPixel, tileToScreen } from './geometry.js';
+
+function getHotspotScreenPos(spot) {
+  if (state.mode === 'tilemap') {
+    const screen = tileToScreen(spot.tileX, spot.tileY);
+    const container = document.getElementById('game-container');
+    const rect = container.getBoundingClientRect();
+    return { x: screen.x - rect.left, y: screen.y - rect.top };
+  }
+  return toPixel(spot.x, spot.y);
+}
 
 export function showPopup(spot) {
   if (state.activePopup) {
@@ -40,9 +50,10 @@ export function showPopup(spot) {
     const popupW = popupRect.width;
     const popupH = popupRect.height;
 
-    const hotspotPos = toPixel(spot.x, spot.y);
-    const containerW = mainImage.parentElement.clientWidth;
-    const containerH = mainImage.parentElement.clientHeight;
+    const hotspotPos = getHotspotScreenPos(spot);
+    const container = document.getElementById('game-container');
+    const containerW = container.clientWidth;
+    const containerH = container.clientHeight;
     const gap = 20;
 
     const spaceRight = containerW - hotspotPos.x;
@@ -77,7 +88,6 @@ export function showPopup(spot) {
       py = hotspotPos.y + gap;
       arrowDir = 'top';
     } else {
-      // Nothing fits perfectly — pick side with most space, above preferred
       if (spaceTop >= spaceBottom) {
         px = hotspotPos.x - popupW / 2;
         py = hotspotPos.y - popupH - gap;
@@ -111,7 +121,6 @@ export function showPopup(spot) {
   } else {
     img.addEventListener('load', position, { once: true });
     img.addEventListener('error', position, { once: true });
-    // Fallback if image takes too long
     setTimeout(() => {
       if (popup.style.visibility === 'hidden') position();
     }, 300);

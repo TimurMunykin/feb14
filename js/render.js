@@ -1,23 +1,22 @@
 import { state } from './state.js';
 import { hotspotsLayer, counter } from './dom.js';
-import { toPixel, getImageRect } from './geometry.js';
+import { toPixel, getImageRect, tileToPixel } from './geometry.js';
 import { showPopup } from './popup.js';
 import { checkVictory } from './app.js';
 
 export function renderHotspots() {
   hotspotsLayer.innerHTML = '';
 
-  state.spots.forEach(spot => {
-    const el = document.createElement('div');
-    el.className = 'hotspot';
-    el.dataset.id = spot.id;
+  if (state.mode === 'tilemap') {
+    renderTileMapHotspots();
+  } else {
+    renderLegacyHotspots();
+  }
+}
 
-    if (state.editorMode) {
-      el.classList.add('editor-visible');
-    }
-    if (spot.found) {
-      el.classList.add('found');
-    }
+function renderLegacyHotspots() {
+  state.spots.forEach(spot => {
+    const el = createHotspotElement(spot);
 
     const pos = toPixel(spot.x, spot.y);
     const rect = getImageRect();
@@ -28,23 +27,56 @@ export function renderHotspots() {
     el.style.width = radiusPx * 2 + 'px';
     el.style.height = radiusPx * 2 + 'px';
 
-    if (!state.editorMode) {
-      el.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (!spot.found) {
-          spot.found = true;
-          el.classList.add('found');
-          updateCounter();
-          showPopup(spot);
-          checkVictory();
-        } else if (!state.activePopup) {
-          showPopup(spot);
-        }
-      });
-    }
+    hotspotsLayer.appendChild(el);
+  });
+}
+
+function renderTileMapHotspots() {
+  const { tileSize } = state.tileMapBounds;
+
+  state.spots.forEach(spot => {
+    const el = createHotspotElement(spot);
+
+    const pos = tileToPixel(spot.tileX, spot.tileY);
+    const radiusPx = spot.radius * tileSize;
+
+    el.style.left = pos.x + 'px';
+    el.style.top = pos.y + 'px';
+    el.style.width = radiusPx * 2 + 'px';
+    el.style.height = radiusPx * 2 + 'px';
 
     hotspotsLayer.appendChild(el);
   });
+}
+
+function createHotspotElement(spot) {
+  const el = document.createElement('div');
+  el.className = 'hotspot';
+  el.dataset.id = spot.id;
+
+  if (state.editorMode || state.constructorMode) {
+    el.classList.add('editor-visible');
+  }
+  if (spot.found) {
+    el.classList.add('found');
+  }
+
+  if (!state.editorMode && !state.constructorMode) {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!spot.found) {
+        spot.found = true;
+        el.classList.add('found');
+        updateCounter();
+        showPopup(spot);
+        checkVictory();
+      } else if (!state.activePopup) {
+        showPopup(spot);
+      }
+    });
+  }
+
+  return el;
 }
 
 export function updateCounter() {

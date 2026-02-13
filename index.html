@@ -12,6 +12,7 @@
 <body>
   <div id="game-container">
     <img id="main-image" src="images/Gemini_Generated_Image_6tpxsi6tpxsi6tpx.png" alt="Find hidden objects" draggable="false">
+    <div id="tile-map-container" class="hidden"></div>
     <div id="hotspots-layer"></div>
     <div id="popup-container"></div>
   </div>
@@ -19,6 +20,13 @@
   <div id="hud" class="hidden">
     <div id="counter">Найдено: 0 из 0</div>
     <button id="btn-hint">Подсказка</button>
+  </div>
+
+  <div id="constructor-toolbar" class="hidden">
+    <button id="btn-fit-view" title="Fit all tiles in view">Fit</button>
+    <button id="btn-toggle-hotspots" title="Toggle hotspot editor">Hotspots</button>
+    <button id="btn-export-game" title="Export game">Export</button>
+    <button id="btn-back-platform" title="Back to game list">Back</button>
   </div>
 
   <div id="editor-panel" class="hidden">
