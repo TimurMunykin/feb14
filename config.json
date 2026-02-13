@@ -1,11 +1,11 @@
 {
   "intro": {
-    "title": "Find all hidden memories",
-    "subtitle": "A little game for you"
+    "title": "Найди все спрятанные воспоминания",
+    "subtitle": "Маленькая игра для тебя"
   },
   "victory": {
-    "message": "You found everything!",
-    "subtitle": "Happy Valentine's Day!"
+    "message": "Ты нашла все!",
+    "subtitle": "С Днем святого Валентина!"
   },
   "hotspots": [
     {

@@ -75,8 +75,8 @@ export function setupEditor() {
   btnExport.addEventListener('click', () => {
     const hotspots = state.spots.map(({ id, x, y, radius, image }) => ({ id, x, y, radius, image }));
     const fullConfig = {
-      intro: { title: "Find all hidden memories", subtitle: "A little game for you" },
-      victory: { message: "You found everything!", subtitle: "Happy Valentine's Day!" },
+      intro: { title: "Найди все спрятанные воспоминания", subtitle: "Маленькая игра для тебя" },
+      victory: { message: "Ты нашла все!", subtitle: "С Днем святого Валентина!" },
       hotspots,
     };
     const json = JSON.stringify(fullConfig, null, 2);

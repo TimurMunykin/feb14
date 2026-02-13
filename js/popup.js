@@ -18,10 +18,10 @@ export function showPopup(spot) {
 
   const img = document.createElement('img');
   img.src = spot.image;
-  img.alt = 'Found!';
+  img.alt = 'Найдено!';
   img.onerror = () => {
     img.style.display = 'none';
-    inner.innerHTML = '<div style="padding:20px;text-align:center;color:#666;">Image not found</div>';
+    inner.innerHTML = '<div style="padding:20px;text-align:center;color:#666;">Изображение не найдено</div>';
   };
 
   inner.appendChild(img);
