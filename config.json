@@ -20,7 +20,7 @@
       "x": 25.37,
       "y": 69.93,
       "radius": 3,
-      "image": "images/spot6.jpg"
+      "image": "images/brige.jpg"
     },
     {
       "id": 7,
@@ -34,7 +34,7 @@
       "x": 77.9,
       "y": 39.79,
       "radius": 15,
-      "image": "images/spot9.jpg"
+      "image": "images/rome2.jpg"
     },
     {
       "id": 10,
@@ -55,28 +55,28 @@
       "x": 13.17,
       "y": 61.39,
       "radius": 3,
-      "image": "images/spot12.jpg"
+      "image": "images/wedding.jpg"
     },
     {
       "id": 13,
       "x": 24.67,
       "y": 48.49,
       "radius": 5,
-      "image": "images/spot13.jpg"
+      "image": "images/home.jpg"
     },
     {
       "id": 14,
       "x": 10.84,
       "y": 71.8,
       "radius": 1,
-      "image": "images/spot14.jpg"
+      "image": "images/dog.jpg"
     },
     {
       "id": 15,
       "x": 43.55,
       "y": 18.49,
       "radius": 12,
-      "image": "images/spot15.jpg"
+      "image": "images/germany.jpg"
     }
   ]
 }
